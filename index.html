@@ -51,6 +51,8 @@
 </select>
 
 <pre id="code-display">
+<button id="copy-btn" style="margin-top: 10px;">Copy Code</button>
+
 // Select a program from the dropdown to see its code here.
 </pre>
 
@@ -573,14 +575,28 @@ int main() {
 
 const select = document.getElementById('program-select');
 const codeDisplay = document.getElementById('code-display');
+const copyBtn = document.getElementById('copy-btn');
 
 select.addEventListener('change', () => {
   const val = select.value;
-  if(val && programs[val]) {
+  if (val && programs[val]) {
     codeDisplay.textContent = programs[val];
   } else {
     codeDisplay.textContent = '// Select a program from the dropdown to see its code here.';
   }
+});
+
+// Copy button functionality
+copyBtn.addEventListener('click', () => {
+  const code = codeDisplay.textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => {
+      copyBtn.textContent = 'Copy Code';
+    }, 2000);
+  }).catch(err => {
+    alert('Failed to copy: ' + err);
+  });
 });
 </script>
 
