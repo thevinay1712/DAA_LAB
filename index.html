@@ -1,24 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quick Sort Program</title>
-  <style>
-    body { font-family: monospace; background: #f5f5f5; padding: 20px; }
-    pre { background: #1e1e1e; color: #dcdcdc; padding: 15px; border-radius: 5px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Program Selector</title>
+<style>
+  body {
+    font-family: monospace, monospace;
+    margin: 20px;
+    background: #f7f7f7;
+    color: #333;
+  }
+  select {
+    font-size: 1.1em;
+    padding: 5px;
+  }
+  pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    max-height: 500px;
+    white-space: pre-wrap;
+  }
+  label {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+</style>
 </head>
 <body>
-  <h1>3. Quick Sort</h1>
 
-  <pre><code>
-#include&lt;bits/stdc++.h&gt;
+<label for="program-select">Choose a program:</label>
+<select id="program-select">
+  <option value="">-- Select a program --</option>
+  <option value="1a">1a. Distinct Elements</option>
+  <option value="1b">1b. Maximum Element in an Array</option>
+  <option value="2a">2a. Factorial of a given number</option>
+  <option value="2b">2b. Tower of Hanoi</option>
+  <option value="3">3. Quick Sort</option>
+  <option value="4">4. Topological Sort using DFS</option>
+  <option value="5">5. Element Uniqueness</option>
+  <option value="6">6. Horspool Algorithm</option>
+  <option value="7">7. Knapsack Problem</option>
+  <option value="8">8. Dijkstra's Algorithm</option>
+  <option value="9">9. Subset Sum Problem</option>
+  <option value="10">10. Assignment Problem</option>
+</select>
+
+<pre id="code-display">
+// Select a program from the dropdown to see its code here.
+</pre>
+
+<script>
+const programs = {
+  "1a": `#include&lt;bits/stdc++.h&gt;
 using namespace std;
 
 int partition(int arr[], int low, int high) {
     int pivot = arr[high];
     int i = low - 1;
-    for(int j = low; j&lt;high; j++) {
+    for(int j = low; j &lt; high; j++) {
         if(arr[j] &lt; pivot) {
             i++;
             swap(arr[i], arr[j]);
@@ -29,7 +72,7 @@ int partition(int arr[], int low, int high) {
 }
 
 void quickSort(int arr[], int low, int high) {
-    if(low&lt;high) {
+    if(low &lt; high) {
         int pi = partition(arr, low, high);
         quickSort(arr, low, pi-1);
         quickSort(arr, pi+1, high);
@@ -41,7 +84,7 @@ int main() {
     int n = sizeof(arr)/sizeof(arr[0]);
 
     cout &lt;&lt; &quot;The input array is &quot; &lt;&lt; endl;
-    for(int i = 0; i&lt;n; i++) {
+    for(int i = 0; i &lt; n; i++) {
         cout &lt;&lt; arr[i] &lt;&lt; &quot;, &quot;;
     }
 
@@ -49,14 +92,14 @@ int main() {
 
     quickSort(arr, 0, n-1);
     cout &lt;&lt; &quot;The sorted array is &quot; &lt;&lt; endl;
-    for(int i = 0; i&lt;n; i++) {
+    for(int i = 0; i &lt; n; i++) {
         cout &lt;&lt; arr[i] &lt;&lt; &quot;, &quot;;
     }
 
     cout &lt;&lt; endl;
 
     bool hasduplicates = false;
-    for(int i = 0; i&lt;n; i++) {
+    for(int i = 0; i &lt; n; i++) {
         if(arr[i] == arr[i+1]) {
             cout &lt;&lt; &quot;The element &quot; &lt;&lt; arr[i] &lt;&lt; &quot; is repeated.&quot; &lt;&lt; endl;
             hasduplicates = true;
@@ -67,7 +110,436 @@ int main() {
         cout &lt;&lt; &quot;The elements are distinct.&quot; &lt;&lt; endl;
     }
     return 0;
-  </code></pre>
+}`,
+
+  "1b": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    int arr[] = {8, 5, 22, 4, 7, 9, 27};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int max = arr[0];
+    int pos = 0;
+    for(int i = 0; i &lt; n; i++) {
+        if(arr[i] &gt; max) {
+            max = arr[i];
+            pos = i;
+        }
+    }
+    cout &lt;&lt; &quot;The maximum element is &quot; &lt;&lt; max &lt;&lt; &quot; and its position is &quot; &lt;&lt; pos;
+    return 0;
+}
+
+// Time complexity is O(n)
+// Space complexity is O(1)`,
+
+  &quot;2a&quot;: `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int factorial(int n) {
+    if(n &lt;= 1)
+        return 1;
+    return n * factorial(n-1);
+}
+
+int main() {
+    int n;
+    cout &lt;&lt; &quot;Enter the number of which factorial is needed: &quot;;
+    cin &gt;&gt; n;
+
+    int answer = factorial(n);
+
+    cout &lt;&lt; &quot;The factorial of &quot; &lt;&lt; n &lt;&lt; &quot; is &quot; &lt;&lt; answer &lt;&lt; endl;
+
+    return 0;
+}`,
+
+  "2b": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+void towerOfhanoi(int n, char source, char temporary, char destination) {
+    if(n == 1) {  //base case
+        cout &lt;&lt; &quot;Move disk 1 from &quot; &lt;&lt; source &lt;&lt; &quot; to &quot; &lt;&lt; destination &lt;&lt; endl;
+        return;
+    }
+
+    towerOfhanoi(n-1, source, destination, temporary);
+
+    cout &lt;&lt; &quot;Move disk &quot; &lt;&lt; n &lt;&lt; &quot; from &quot; &lt;&lt; source &lt;&lt; &quot; to &quot; &lt;&lt; destination &lt;&lt; endl;
+
+    towerOfhanoi(n-1, temporary, source, destination);
+}
+
+int main() {
+    int n;
+    cout &lt;&lt; &quot;Enter the number of discs: &quot;;
+    cin &gt;&gt; n;
+
+    cout &lt;&lt; &quot;Steps to solve tower of hanoi problem: &quot; &lt;&lt; endl;
+
+    towerOfhanoi(n, &apos;A&apos;, &apos;B&apos;, &apos;C&apos;);
+
+    return 0;
+}`,
+
+  "3": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for(int j = low; j &lt; high; j++) {
+        if(arr[j] &lt; pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i+1], arr[high]);
+    return i+1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if(low &lt; high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi-1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int arr[] = {23, 34, 22, 5, 65, 33, 11, 70, 35};
+    int size = sizeof(arr)/sizeof(arr[0]);
+
+    cout &lt;&lt; &quot;The original array is &quot; &lt;&lt; endl;
+    for(int i = 0; i &lt; size; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; &quot;, &quot;;
+    }
+
+    quickSort(arr, 0, size-1);
+
+    cout &lt;&lt; endl;
+    
+    cout &lt;&lt; &quot;The sorted array is &quot; &lt;&lt; endl;
+    for(int i = 0; i &lt; size; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; &quot;, &quot;;
+    }
+
+    return 0;
+}`,
+
+  "4": `#include &lt;iostream&gt;
+#define MAX 100
+using namespace std;
+
+int adj[MAX][MAX];
+bool visited[MAX];
+int stack[MAX];
+int top = -1;
+
+void push(int val) {
+    stack[++top] = val;
+}
+
+int pop() {
+    return stack[top--];
+}
+
+void dfs(int node, int n) {
+    visited[node] = true;
+    for(int i = 0; i &lt; n; ++i) {
+        if(adj[node][i] &amp;&amp; !visited[i]) {
+            dfs(i, n);
+        }
+    }
+    push(node);
+}
+
+void topologicalsort(int n) {
+    for(int i = 0; i &lt; n; ++i) {
+        visited[i] = false;
+    }
+
+    for(int i = 0; i &lt; n; ++i) {
+        if(!visited[i]) {
+            dfs(i, n);
+        }
+    }
+
+    cout &lt;&lt; &quot;Topological Sort: &quot;;
+    while(top &gt;= 0) {
+        cout &lt;&lt; pop() &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+
+int main() {
+    int n = 6;
+
+    adj[1][0] = 1;
+    adj[1][3] = 1;
+    adj[2][4] = 1;
+    adj[3][5] = 1;
+    adj[4][1] = 1;
+
+    topologicalsort(n);
+
+    return 0;
+}`,
+
+  "5": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for(int j = low; j &lt; high; j++) {
+        if(arr[j] &lt; pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i+1], arr[high]);
+    return i+1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if(low &lt; high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi-1);
+        quickSort(arr, pi+1, high);
+    }
+}
+
+bool checkDistinct(int arr[], int n) {
+    quickSort(arr, 0, n-1);
+    for(int i = 0; i &lt; n-1; i++) {
+        if(arr[i] == arr[i+1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    int arr[] = {8, 5, 22, 4, 7, 9, 27};
+    int n = sizeof(arr)/sizeof(arr[0]);
+
+    if(checkDistinct(arr, n)) {
+        cout &lt;&lt; &quot;Elements are distinct.&quot; &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; &quot;Elements are not distinct.&quot; &lt;&lt; endl;
+    }
+
+    return 0;
+}`,
+
+  "6": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int horspool(char* text, char* pattern) {
+    int m = strlen(pattern);
+    int n = strlen(text);
+    int badChar[256];
+
+    for(int i = 0; i &lt; 256; i++) badChar[i] = m;
+
+    for(int i = 0; i &lt; m-1; i++) {
+        badChar[(int)pattern[i]] = m - 1 - i;
+    }
+
+    int s = 0;
+    while(s &lt;= n-m) {
+        int j = m-1;
+
+        while(j &gt;= 0 &amp;&amp; pattern[j] == text[s+j]) j--;
+
+        if(j &lt; 0) {
+            return s; // match found at s
+        } else {
+            s += badChar[(int)text[s+m-1]];
+        }
+    }
+    return -1;
+}
+
+int main() {
+    char text[] = &quot;hello world&quot;;
+    char pattern[] = &quot;world&quot;;
+
+    int pos = horspool(text, pattern);
+
+    if(pos != -1) {
+        cout &lt;&lt; &quot;Pattern found at index &quot; &lt;&lt; pos &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; &quot;Pattern not found.&quot; &lt;&lt; endl;
+    }
+
+    return 0;
+}`,
+
+  "7": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int knapsack(int W, int wt[], int val[], int n) {
+    if(n == 0 || W == 0)
+        return 0;
+    if(wt[n-1] &gt; W)
+        return knapsack(W, wt, val, n-1);
+    else
+        return max(val[n-1] + knapsack(W - wt[n-1], wt, val, n-1),
+                   knapsack(W, wt, val, n-1));
+}
+
+int main() {
+    int val[] = {60, 100, 120};
+    int wt[] = {10, 20, 30};
+    int W = 50;
+    int n = sizeof(val)/sizeof(val[0]);
+
+    cout &lt;&lt; &quot;Maximum value in knapsack = &quot; &lt;&lt; knapsack(W, wt, val, n) &lt;&lt; endl;
+
+    return 0;
+}`,
+
+  "8": `#include &lt;iostream&gt;
+using namespace std;
+
+#define MAX 100
+#define INF 99999
+
+int graph[MAX][MAX];
+int dist[MAX];
+bool visited[MAX];
+int n;
+
+int minDistance() {
+    int min = INF, index = -1;
+    for (int i = 0; i &lt; n; i++) {
+        if (!visited[i] &amp;&amp; dist[i] &lt;= min) {
+            min = dist[i];
+            index = i;
+        }
+    }
+    return index;
+}
+
+void dijkstra(int src) {
+    for (int i = 0; i &lt; n; i++) {
+        dist[i] = INF;
+        visited[i] = false;
+    }
+    dist[src] = 0;
+
+    for (int count = 0; count &lt; n - 1; count++) {
+        int u = minDistance();
+        if (u == -1) break;
+        visited[u] = true;
+
+        for (int v = 0; v &lt; n; v++) {
+            if (!visited[v] &amp;&amp; graph[u][v] &amp;&amp; dist[u] != INF &amp;&amp; 
+                dist[u] + graph[u][v] &lt; dist[v]) {
+                dist[v] = dist[u] + graph[u][v];
+            }
+        }
+    }
+
+    cout &lt;&lt; &quot;Vertex \t Distance from Source &quot; &lt;&lt; src &lt;&lt; &quot;\n&quot;;
+    for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; i &lt;&lt; &quot;\t\t&quot; &lt;&lt; dist[i] &lt;&lt; &quot;\n&quot;;
+    }
+}
+
+int main() {
+    cout &lt;&lt; &quot;Enter number of vertices: &quot;;
+    cin &gt;&gt; n;
+    cout &lt;&lt; &quot;Enter the adjacency matrix (0 for no edge):\n&quot;;
+    for (int i = 0; i &lt; n; i++)
+        for (int j = 0; j &lt; n; j++)
+            cin &gt;&gt; graph[i][j];
+
+    int source;
+    cout &lt;&lt; &quot;Enter source vertex: &quot;;
+    cin &gt;&gt; source;
+
+    dijkstra(source);
+    return 0;
+}`,
+
+  "9": `#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+bool subsetSum(int set[], int n, int sum) {
+    if(sum == 0) return true;
+    if(n == 0) return false;
+
+    if(set[n-1] &gt; sum)
+        return subsetSum(set, n-1, sum);
+    else
+        return subsetSum(set, n-1, sum) || subsetSum(set, n-1, sum - set[n-1]);
+}
+
+int main() {
+    int set[] = {3, 34, 4, 12, 5, 2};
+    int sum = 9;
+    int n = sizeof(set)/sizeof(set[0]);
+
+    if(subsetSum(set, n, sum))
+        cout &lt;&lt; &quot;Found a subset with given sum &quot; &lt;&lt; sum &lt;&lt; endl;
+    else
+        cout &lt;&lt; &quot;No subset with given sum &quot; &lt;&lt; sum &lt;&lt; endl;
+
+    return 0;
+}`
+
+    "10": `#include &lt;iostream&gt;
+using namespace std;
+
+#define MAX 10
+#define INF 99999
+
+int cost[MAX][MAX], assign[MAX], used[MAX];
+int n, minCost = INF;
+
+void findMinCost(int job, int sum) {
+    if (job == n) {
+        if (sum &lt; minCost)
+            minCost = sum;
+        return;
+    }
+
+    for (int i = 0; i &lt; n; i++) {
+        if (!used[i]) {
+            used[i] = 1;
+            findMinCost(job + 1, sum + cost[job][i]);
+            used[i] = 0;
+        }
+    }
+}
+
+int main() {
+    cout &lt;&lt; &quot;Enter number of workers/jobs: &quot;;
+    cin &gt;&gt; n;
+
+    cout &lt;&lt; &quot;Enter cost matrix:\n&quot;;
+    for (int i = 0; i &lt; n; i++)
+        for (int j = 0; j &lt; n; j++)
+            cin &gt;&gt; cost[i][j];
+
+    for (int i = 0; i &lt; n; i++)
+        used[i] = 0;
+
+    findMinCost(0, 0);
+
+    cout &lt;&lt; &quot;Minimum assignment cost: &quot; &lt;&lt; minCost &lt;&lt; endl;
+    return 0;
+}`
+};
+
+document.getElementById('program-select').addEventListener('change', function() {
+  const code = programs[this.value] || '// Select a program from the dropdown to see its code here.';
+  document.getElementById('code-display').textContent = code;
+});
+</script>
 
 </body>
 </html>
