@@ -573,31 +573,24 @@ int main() {
 }`
 };
 
-const select = document.getElementById('program-select');
-const codeDisplay = document.getElementById('code-display');
-const copyBtn = document.getElementById('copy-btn');
+<script>
+const codeDisplay = document.getElementById("code-display");
+const copyBtn = document.getElementById("copy-btn");
+const select = document.getElementById("program-select");
 
-select.addEventListener('change', () => {
-  const val = select.value;
-  if (val && programs[val]) {
-    codeDisplay.textContent = programs[val];
-  } else {
-    codeDisplay.textContent = '// Select a program from the dropdown to see its code here.';
-  }
+select.addEventListener("change", () => {
+  const selected = select.value;
+  codeDisplay.textContent = selected && programs[selected] ? programs[selected] : "// Select a program from the dropdown to see its code here.";
 });
 
-// Copy button functionality
-copyBtn.addEventListener('click', () => {
-  const code = codeDisplay.textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => {
-      copyBtn.textContent = 'Copy Code';
-    }, 2000);
-  }).catch(err => {
-    alert('Failed to copy: ' + err);
-  });
+copyBtn.addEventListener("click", () => {
+  const textToCopy = codeDisplay.textContent;
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => alert("Code copied to clipboard!"))
+    .catch(err => alert("Failed to copy code: " + err));
 });
+</script>
+
 </script>
 
 </body>
