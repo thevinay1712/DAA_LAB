@@ -1,0 +1,57 @@
+#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for(int j = low; j&lt;high; j++) {
+        if(arr[j] &lt; pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i+1], arr[high]);
+    return i+1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if(low&lt;high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi-1);
+        quickSort(arr, pi+1, high);
+    }
+}
+
+
+int main() {
+    int arr[] = {3, 5, 6, 23, 23, 22, 65, 87};
+    int n = sizeof(arr)/sizeof(arr[0]);
+
+    cout &lt;&lt; &quot;The input array is &quot; &lt;&lt; endl;
+    for(int i = 0; i&lt;n; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; &quot;, &quot;;
+    }
+
+    cout &lt;&lt; endl;
+
+    quickSort(arr, 0, n-1);
+    cout &lt;&lt; &quot;The sorted array is &quot; &lt;&lt; endl;
+    for(int i = 0; i&lt;n; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; &quot;, &quot;;
+    }
+
+    cout &lt;&lt; endl;
+
+    bool hasduplicates = false;
+    for(int i = 0; i&lt;n; i++) {
+        if(arr[i] == arr[i+1]) {
+            cout &lt;&lt; &quot;The element &quot; &lt;&lt; arr[i] &lt;&lt; &quot; is repeated.&quot; &lt;&lt; endl;
+            hasduplicates = true;
+        }
+    }
+
+    if(!hasduplicates) {
+        cout &lt;&lt; &quot;The elements are distinct.&quot; &lt;&lt; endl;
+        }
+    return 0;
+    }
