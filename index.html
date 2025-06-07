@@ -574,21 +574,29 @@ int main() {
 };
 
 <script>
-const codeDisplay = document.getElementById("code-display");
-const copyBtn = document.getElementById("copy-btn");
-const select = document.getElementById("program-select");
+  const select = document.getElementById("program-select");
+  const display = document.getElementById("code-display");
+  const copyBtn = document.getElementById("copy-btn");
 
-select.addEventListener("change", () => {
-  const selected = select.value;
-  codeDisplay.textContent = selected && programs[selected] ? programs[selected] : "// Select a program from the dropdown to see its code here.";
-});
+  // When a new program is selected
+  select.addEventListener("change", function () {
+    const selected = select.value;
+    if (programs[selected]) {
+      display.textContent = programs[selected];
+    } else {
+      display.textContent = "// Select a program from the dropdown to see its code here.";
+    }
+  });
 
-copyBtn.addEventListener("click", () => {
-  const textToCopy = codeDisplay.textContent;
-  navigator.clipboard.writeText(textToCopy)
-    .then(() => alert("Code copied to clipboard!"))
-    .catch(err => alert("Failed to copy code: " + err));
-});
+  // Copy button functionality
+  copyBtn.addEventListener("click", function () {
+    const code = display.textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      alert("Code copied to clipboard!");
+    }).catch(err => {
+      alert("Failed to copy code: " + err);
+    });
+  });
 </script>
 
 </script>
